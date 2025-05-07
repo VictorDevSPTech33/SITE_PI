@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="css/cadastro.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <header>
+        <img class="logo" src="assets/imgs/logo_cavalo-Photoroom.png" alt="Logo - Imagem de um cavalo" width="150px">
+        <nav class="navbar"> 
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Sobre mim</a></li>
+                <li><a href="#">Links Úteis</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="buttons">
+          <a href="login.html" class="login">Login</a>
+          <a href="cadastro.html" class="cadastro">Cadastro</a>
+      </div>
+    </header>
+    <div class="card_erro" id="cardErro">
+      <span id="mensagem_erro"></span>
+    </div>
+    <div class="box-formulario">
+        <div class="container-cadastro" id="cadastro">
+            <div class="cadastro-topo">
+                <span>Já tem cadastro? <a href="login.html" onclick="login()">Login</a></span>
+                <header>Cadastro</header>
+            </div>
+            <div class="cadastro-input">
+                <input id="input_nome" type="text" class="input" placeholder="Nome">
+                <i class='bx bx-user'></i>
+            </div>
+            <div class="cadastro-input">
+                <input id="input_sobreNome" type="text" class="input" placeholder="Sobrenome">
+                <i class='bx bx-user'></i>
+            </div>
+            <div class="cadastro-input">
+                <input id="input_email" type="text" class="input" placeholder="E-mail">
+                <i class='bx bx-envelope'></i>
+            </div>
+            <div class="cadastro-input">
+                <input id="input_senha" type="password" class="input" placeholder="Senha">
+                <i class='bx bx-lock-alt'></i>
+            </div>
+            <div class="cadastro-botao">
+                <button onclick="cadastrar()">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+  // Array para armazenar empresas cadastradas para validação de código de ativação 
+  let listaEmpresasCadastradas = [];
+
+function cadastrar() {
+  // aguardar();
+
+  //Recupere o valor da nova input pelo nome do id
+  // Agora vá para o método fetch logo abaixo
+  var nomeVar = input_nome.value;
+  var sobreNomeVar =input_sobreNome.value
+  var emailVar = input_email.value;
+  var senhaVar = input_senha.value;
+  
+
+  // Verificando se há algum campo em branco
+  if (
+    nomeVar == "" ||
+    sobreNomeVar == "" ||
+    emailVar == "" ||
+    senhaVar == ""
+  ) {mensagem_erro.innerHTML =
+      "Erro, preencha todos os campos, não deixe nenhum vazio";
+
+    finalizarAguardar();
+    return false;
+  } else if (!emailVar.includes("@") || !emailVar.includes(".")) {
+  mensagem_erro.innerHTML = "O email deve conter '@'' e '.'";
+  finalizarAguardar();
+  return false;
+} else {
+    setInterval(sumirMensagem, 5000);
+  }
+
+  // Verificando se o código de ativação é de alguma empresa cadastrada
+  //for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
+  //  if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
+  //    idEmpresaVincular = listaEmpresasCadastradas[i].id
+  //    console.log("Código de ativação válido.");
+  //    break;
+  //  } else {
+  //    cardErro.style.display = "block";
+  //    mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
+  //     ();
+  //  }
+  //}
+
+  // Enviando o valor da nova input
+  fetch("/usuarios/cadastrar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      // crie um atributo que recebe o valor recuperado aqui
+      // Agora vá para o arquivo routes/usuario.js
+      nomeServer: nomeVar,
+      sobreNomeServer: sobreNomeVar,
+      emailServer: emailVar,
+      senhaServer: senhaVar
+    }),
+  })
+    .then(function (resposta) {
+      console.log("resposta: ", resposta);
+
+      if (resposta.ok) {
+        mensagem_erro.innerHTML =
+          "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+        setTimeout(() => {
+          window.location = "login.html";
+        }, "2000");
+
+        limparFormulario();
+        finalizarAguardar();
+      } else {
+        throw "Houve um erro ao tentar realizar o cadastro!";
+      }
+    })
+    .catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+      finalizarAguardar();
+    });
+
+  return false;
+}
+
+// Listando empresas cadastradas 
+//function listar() {
+//  fetch("/empresas/listar", {
+//    method: "GET",
+//  })
+//    .then(function (resposta) {
+//      resposta.json().then((empresas) => {
+//        empresas.forEach((empresa) => {
+//          listaEmpresasCadastradas.push(empresa);
+//
+//          console.log("listaEmpresasCadastradas")
+//          console.log(listaEmpresasCadastradas[0].codigo_ativacao)
+//        });
+//      });
+//    })
+//    .catch(function (resposta) {
+//      console.log(`#ERRO: ${resposta}`);
+//    });
+//}
+
+function sumirMensagem() {
+  cardErro.style.display = "none";
+}
+    </script>
+</body>
+</html>
