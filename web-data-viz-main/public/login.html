@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="./js/sessao.js"></script>
+</head>
+<body>
+    <header>
+        <img class="logo" src="assets/imgs/logo_cavalo-Photoroom.png" alt="Logo - Imagem de um cavalo" width="150px">
+        <nav class="navbar"> 
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Sobre mim</a></li>
+                <li><a href="#">Links Úteis</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="buttons">
+            <a href="login.html" class="login">Login</a>
+            <a href="cadastro.html" class="cadastro">Cadastro</a>
+        </div>
+    </header>
+
+    <div class="box-formulario">
+        <div class="card_erro" id="cardErro">
+            <span id="mensagem_erro"></span>
+          </div>
+        <div class="container-login">
+            <div class="login-topo">
+                <header>Login</header>
+            </div>
+            <div class="login-input">
+                <input id="input_email" type="email" class="input" placeholder="E-mail">
+                <i class='bx bx-envelope'></i>
+            </div>
+            <div class="login-input">
+                <input id="input_senha" type="password" class="input" placeholder="Senha">
+                <i class='bx bx-lock-alt'></i>
+            </div>
+            <div class="login-botao">
+                <button onclick="entrar()">Entrar</button>
+            </div>
+            <div class="login-link">
+                <span>Não tem conta?<a href="cadastro.html">Cadastre-se</a></span> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+
+    function entrar() {
+        aguardar();
+
+        var emailVar = input_email.value;
+        var senhaVar = input_senha.value;
+
+        if (emailVar == "" || senhaVar == "") {
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            finalizarAguardar();
+            return false;
+        }
+        else {
+            setInterval(sumirMensagem, 5000)
+        }
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.id;
+                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+
+                    setTimeout(function () {
+                        window.location = "./dashboard/cards.html";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none"
+    }
+
+</script>
