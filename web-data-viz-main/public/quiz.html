@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Xadrez</title>
+    <link rel="stylesheet" href="css/quiz.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<header>
+    <img class="logo" src="assets/imgs/logo_cavalo-Photoroom.png" alt="Logo - Imagem de um cavalo" width="150px">
+    <nav class="navbar"> 
+        <ul class="nav-links">
+            <li><a href="#">Home</a> </li>
+            <li><a href="#">Sobre mim</a></li>
+            <li> <a href="#">Links Úteis</a></li>
+            <li><a href="#">Contato</a></li>
+        </ul>
+    </nav>
+    <div class="buttons">
+        <a href="login.html" class="login">Login</a>
+        <a href="cadastro.html" class="cadastro">Cadastro</a>
+    </div>
+    
+</header>
+<body>
+    <div class="container">
+        <!-- Conteiner dos níveis -->
+        <div id="selecaoNivel" class="tela-selecao">
+            <h2>Escolha o nível do quiz:</h2>
+            <div class="botoes-nivel">
+                <button onclick="selecionarNivel('iniciante')">Iniciante</button>
+                <button onclick="selecionarNivel('intermediario')">Intermediário</button>
+                <button onclick="selecionarNivel('avancado')">Avançado</button>
+            </div>
+        </div>
+
+        <!-- Conteiner do quiz-->
+        <div id="quizContainer" class="hidden">
+            <div id="pontuacao" class="pontuacao-container">
+                <div id="pontuacaoDuranteJogo">
+                    <span>Acertos: <span id="spanCertas"></span></span>
+                    <span>Erros: <span id="spanErradas"></span></span>
+                </div>
+            </div>
+
+            <div id="jogo" class="quiz-container">
+                <div id="infoQuestao">
+                    <span>Questão <span id="spanNumeroDaQuestaoAtual"></span> de <span id="qtdQuestoes"></span></span>
+                </div>
+
+                <div id="perguntaDaQuestaoAtual">
+                    <span id="spanQuestaoExibida"></span>
+                </div>
+
+                <div id="opcoes" class="opcoes-container">
+                    <label class="opcao">
+                        <input type="radio" name="option" value="alternativaA">
+                        <span id="labelOpcaoUm"></span>
+                    </label>
+                    <label class="opcao">
+                        <input type="radio" name="option" value="alternativaB">
+                        <span id="labelOpcaoDois"></span>
+                    </label>
+                    <label class="opcao">
+                        <input type="radio" name="option" value="alternativaC">
+                        <span id="labelOpcaoTres"></span>
+                    </label>
+                    <label class="opcao">
+                        <input type="radio" name="option" value="alternativaD">
+                        <span id="labelOpcaoQuatro"></span>
+                    </label>
+                </div>
+
+                <div class="botoes-container">
+                    <button onclick="responder()" id="btnResponder">Responder</button>
+                    <button onclick="proximo()" id="btnProx">Próxima</button>
+                    <button onclick="reiniciarQuiz()" id="btnReiniciar">Reiniciar</button>
+                </div>
+            </div>
+        </div>
+        <div id="resultadoFinal" class="hidden">
+            <h2>Resultado</h2>
+            <div class="resultado-container">
+                <div class="resultado-texto">
+                    <p>Acertos: <span id="finalCertas"></span></p>
+                    <p>Erros: <span id="finalErradas"></span></p>
+                    <p>Total de questões: <span id="finalTotal"></span></p>
+                </div>
+                <div class="grafico">
+                    <canvas id="graficoResultado"></canvas>
+                </div>
+            </div>
+            <button onclick="reiniciarQuiz()">Fazer outro quiz</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+    // Lista das questões por nível
+const listaDeQuestoes = {
+    iniciante: [
+        {
+            pergunta: "Qual o movimento/direção em que o cavalo se movimenta?",
+            alternativaA: "Horizontal.",
+            alternativaB: "Vertical.",
+            alternativaC: "Em 'L'.",
+            alternativaD: "Diagonal.",
+            alternativaCorreta: "alternativaC"
+        },
+        {
+            pergunta: "Qual o objetivo do Xadrez ?",
+            alternativaA: "Comer todas as peças do oponente.",
+            alternativaB: "Comer a peça Rainha.",
+            alternativaC: "Deixar o oponente sem jogada.",
+            alternativaD: "Dar um xeque e deixar o oponente sem jogada. Xeque-mate.",
+            alternativaCorreta: "alternativaD"
+        },
+        {
+            pergunta: "Qual a peça mais forte do jogo ?",
+            alternativaA: "Cavalo.",
+            alternativaB: "Peão.",
+            alternativaC: "Rainha.",
+            alternativaD: "Rei.",
+            alternativaCorreta: "alternativaC"
+        },
+        {
+            pergunta: "Qual a peça mais importante do jogo ?",
+            alternativaA: "Cavalo.",
+            alternativaB: "Peão.",
+            alternativaC: "Rainha",
+            alternativaD: "Rei",
+            alternativaCorreta: "alternativaD"
+        },
+        {
+            pergunta: "O que significa a jogada 'Un-passant'?",
+            alternativaA: "Quando o jogador fica sem jogada.",
+            alternativaB: "Caso um peão ande duas casas no começo do jogo e passe por uma casa atacada por outro peão esse peão pode capturar o outro.",
+            alternativaC: "Quando a pessoa come a Rainha.",
+            alternativaD: "Quando o peão promove para alguma peça.",
+            alternativaCorreta: "alternativaB"   
+        }
+    ],
+    intermediario:[
+    {
+            pergunta: "O que acontece quando um peão chega ao final do tabuleiro? Na última casa?",
+            alternativaA: "Nada.",
+            alternativaB: "Ele pode virar qualquer peça que quiser.",
+            alternativaC: "Depende, se for um peão que não seja da coluna da torre, pode virar qualquer peça.",
+            alternativaD: "O jogador ganha o jogo.",
+            alternativaCorreta: "alternativaB"
+        },
+        {
+            pergunta: "O que é uma 'cravada' no xadrez?",
+            alternativaA: "Quando um peão avança duas casas no primeiro movimento.",
+            alternativaB: "Quando uma peça não pode se mover sem expor o rei ao ataque.",
+            alternativaC: "Quando o rei está em xeque e não pode escapar.",
+            alternativaD: "Quando duas torres são colocadas na mesma coluna.",
+            alternativaCorreta: "alternativaB"
+        },
+        {
+            pergunta: "Como sair de um xeque-duplo?",
+            alternativaA: "Não tem saída é um xeque-mate.",
+            alternativaB: "comer uma das peças que está atacando.",
+            alternativaC: "Mover o rei.",
+            alternativaD: "Dando outro xeque.",
+            alternativaCorreta: "alternativaC"
+        },
+        {
+            pergunta: "O que acontece em um jogo caso haja um repetição tripla ?",
+            alternativaA: "Nada.",
+            alternativaB: "O jogador que começou com a repetição pode declarar vitória.",
+            alternativaC: "O jogador que não começou com a repetição pode declarar vitória.",
+            alternativaD: "Qualquer um dos jogadores pode declarar empate.",
+            alternativaCorreta: "alternativaD"
+        },
+        {
+            pergunta: "O que é um 'cavalo ativo' e por que ele é valioso?",
+            alternativaA: "Um cavalo que ataca peões indefesos.",
+            alternativaB: "Um cavalo posicionado em uma casa central avançada, sem poder ser expulso por peões.",
+            alternativaC: "Um cavalo que protege o rei no roque.",
+            alternativaD: "Um cavalo que pode ser trocado por um bispo.",
+            alternativaCorreta: "alternativaB"
+        }
+    ],
+    avancado: []
+};
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
