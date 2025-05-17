@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="cadastro.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <header>
+        <img class="logo" src="/home/victor_hugo/Documentos/MEU_SITE_PI/logo_cavalo-Photoroom.png" alt="Logo - Imagem de um cavalo" width="150px">
+        <nav class="navbar"> 
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Sobre mim</a></li>
+                <li><a href="#">Links Úteis</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+        <a class="buttons" href="#">
+            <button onclick="login()" class="login">Login</button>
+            <button onclick="cadastro()" class="cadastro">Cadastro</button>
+        </a>
+    </header>
+
+    <div class="box-formulario">
+        <div class="container-cadastro" id="cadastro">
+            <div class="cadastro-topo">
+                <span>Já tem cadastro? <a href="login.html" onclick="login()">Login</a></span>
+                <header>Cadastro</header>
+            </div>
+            <div class="cadastro-input">
+                <input type="text" class="input" placeholder="Nome">
+                <i class='bx bx-user'></i>
+            </div>
+            <div class="cadastro-input">
+                <input type="text" class="input" placeholder="Sobrenome">
+                <i class='bx bx-user'></i>
+            </div>
+            <div class="cadastro-input">
+                <input type="text" class="input" placeholder="E-mail">
+                <i class='bx bx-envelope'></i>
+            </div>
+            <div class="cadastro-input">
+                <input type="password" class="input" placeholder="Senha">
+                <i class='bx bx-lock-alt'></i>
+            </div>
+            <div class="cadastro-botao">
+                <button onclick="cadastro()">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            // Sua função de login aqui
+        }
+
+        function cadastro() {
+            // Sua função de cadastro aqui
+        }
+
+        // background-color: #4CAF50 talvez usar no botao é o verde
+    </script>
+</body>
+</html>
