@@ -231,6 +231,70 @@ const listaDeQuestoes = {
     ]
 };
 
+ 
+// Variáveis globais
+let nivelSelecionado = '';
+let questoesDoNivel = [];
+let numeroDaQuestaoAtual = 0;
+let certas = 0;
+let erradas = 0;
+let quantidadeDeQuestoes = 0;
+let respostaSelecionada = null;
+let grafico = null;
+
+// Função para selecionar o nível
+function selecionarNivel(nivel) {
+    nivelSelecionado = nivel;
+    questoesDoNivel = listaDeQuestoes[nivel];
+    quantidadeDeQuestoes = questoesDoNivel.length;
+    
+    // Esconder a tela de seleção e mostrar o quiz
+    document.getElementById('selecaoNivel').classList.add('hidden');
+    document.getElementById('quizContainer').classList.remove('hidden');
+    
+    // Chama a função para iniciar o quiz
+    iniciarQuiz();
+}
+
+// Função para iniciar o quiz
+function iniciarQuiz() {
+    // Reseta os contadores para cada nova tentativa
+    numeroDaQuestaoAtual = 0;
+    certas = 0;
+    erradas = 0;
+    
+    // Atualiza as certas erradas e quantas tem
+    document.getElementById('spanCertas').innerHTML = certas;
+    document.getElementById('spanErradas').innerHTML = erradas;
+    document.getElementById('qtdQuestoes').innerHTML = quantidadeDeQuestoes;
+    
+    // Chama a função para mostrar a primeira questão
+    mostrarQuestaoAtual();
+}
+
+// Função para mostrar a questão atual
+function mostrarQuestaoAtual() {
+    const questaoAtual = questoesDoNivel[numeroDaQuestaoAtual];
+    
+    // Atualiza a questão que está sendo exibida
+    document.getElementById('spanNumeroDaQuestaoAtual').innerHTML = numeroDaQuestaoAtual + 1;
+    document.getElementById('spanQuestaoExibida').innerHTML = questaoAtual.pergunta;
+    document.getElementById('labelOpcaoUm').innerHTML = questaoAtual.alternativaA;
+    document.getElementById('labelOpcaoDois').innerHTML = questaoAtual.alternativaB;
+    document.getElementById('labelOpcaoTres').innerHTML = questaoAtual.alternativaC;
+    document.getElementById('labelOpcaoQuatro').innerHTML = questaoAtual.alternativaD;
+   
+    // Reseta a seleção
+    document.getElementsByName("option").forEach(radio => {
+        radio.checked = false;
+        radio.parentElement.classList.remove('resposta-correta', 'resposta-incorreta');
+    });
+    
+    // Esconder o botão Próximo
+    document.getElementById('btnProx').classList.add('hidden');
+
+    // parei aqui.
+}
 
 </script>
 
