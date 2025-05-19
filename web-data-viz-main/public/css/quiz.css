@@ -115,3 +115,86 @@ color: #0d3c94;
 .botoes-nivel button:hover {
     background-color: #f0a500;
 }
+
+/* conteiner do quiz */
+.quiz-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.pontuacao-container {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#infoQuestao {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #0762C8;
+}
+
+#spanQuestaoExibida {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    display: block;
+}
+
+.opcoes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.opcao {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 2px solid #CCCCCC;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.opcao:hover {
+    border-color: #0762C8;
+}
+
+.botoes-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.botoes-container button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0762C8;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.botoes-container button:hover {
+    background-color: #f0a500;
+}
+
+/* respostas corretas/incorretas */
+.resposta-correta {
+    background-color: #9dd3ba;
+    border-color: #198754;
+}
+
+.resposta-incorreta {
+    background-color: #f0c1c6;
+    border-color: #dc3545 ;
+}
