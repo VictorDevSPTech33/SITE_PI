@@ -295,7 +295,47 @@ function mostrarQuestaoAtual() {
 
     // parei aqui.
 }
+// Função para responder a resposta
+function responder() {
+    const opcoes = document.getElementsByName("option");
+    const questaoAtual = questoesDoNivel[numeroDaQuestaoAtual];
+    let respostaSelecionada = null;
+    document.getElementById('btnProx').classList.remove('hidden');
 
+    
+    // Verifica qual opção foi selecionada
+    opcoes.forEach(opcao => {
+        if (opcao.checked) {
+            respostaSelecionada = opcao.value;
+            opcao.parentElement.classList.add(
+                opcao.value === questaoAtual.alternativaCorreta 
+                    ? 'resposta-correta' 
+                    : 'resposta-incorreta'
+            );
+        }
+        
+        // Marca a resposta correta
+        if (opcao.value === questaoAtual.alternativaCorreta) {
+            opcao.parentElement.classList.add('resposta-correta');
+        }
+    });
+    
+    // Caso nenhuma opção seja selecionada
+    if (!respostaSelecionada) {
+        alert('Por favor, selecione uma resposta!');
+        return;
+    }
+    
+    // Atualiza as respostas certas e erradas
+    if (respostaSelecionada === questaoAtual.alternativaCorreta) {
+        certas++;
+    } else {
+        erradas++;
+    }
+    
+    document.getElementById('spanCertas').innerHTML = certas;
+    document.getElementById('spanErradas').innerHTML = erradas;
+}
 </script>
 
 
