@@ -336,6 +336,110 @@ function responder() {
     document.getElementById('spanCertas').innerHTML = certas;
     document.getElementById('spanErradas').innerHTML = erradas;
 }
+
+// Função para avançar para a próxima questão
+function proximo() {
+    numeroDaQuestaoAtual++;
+    
+    if (numeroDaQuestaoAtual < quantidadeDeQuestoes) {
+        mostrarQuestaoAtual();
+    } else {
+        mostrarResultadoFinal();
+    }
+}
+
+// Função para deixar o ambiente válido para o gráfico
+function mostrarResultadoFinal() {
+    // Esconde o quiz e mostra o resultado
+    document.getElementById('quizContainer').classList.add('hidden');
+    document.getElementById('resultadoFinal').classList.remove('hidden');
+    
+    // Atualiza os textos
+    document.getElementById('finalCertas').innerHTML = certas;
+    document.getElementById('finalErradas').innerHTML = erradas;
+    document.getElementById('finalTotal').innerHTML = quantidadeDeQuestoes;
+    
+    // Chama a função para criar o gráfico
+    criarGraficoResultado();
+}
+
+// Função para criar o gráfico
+function criarGraficoResultado() {
+    const ctx = document.getElementById('graficoResultado').getContext('2d');
+    
+    // Destrói o gráfico anterior se existir
+    if (grafico) {
+        grafico.destroy();
+    }
+    
+    grafico = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Acertos', 'Erros', 'Total'],
+            datasets: [{
+                data: [certas, erradas, quantidadeDeQuestoes],
+                backgroundColor: [
+                    'rgba(25, 135, 84, 0.7)',  
+                    'rgba(220, 53, 69, 0.7)',  
+                    'rgba(108, 117, 125, 0.7)' 
+                ],
+                borderColor: [
+                    'rgba(25, 135, 84, 1)',
+                    'rgba(220, 53, 69, 1)',
+                    'rgba(108, 117, 125, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {  
+                    ticks: {
+                        font: {
+                            size: 22
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: quantidadeDeQuestoes,
+                    ticks: {
+                        stepSize: 1,
+                        font: {
+                            size: 22   
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.raw;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Função para reiniciar o Quiz
+function reiniciarQuiz() {
+    document.getElementById('quizContainer').classList.add('hidden');
+    document.getElementById('selecaoNivel').classList.remove('hidden');
+    document.getElementById('resultadoFinal').classList.add('hidden');
+
+    // Destrói o gráfico se existir
+    if (grafico) {
+        grafico.destroy();
+        grafico = null;
+    }
+}
 </script>
 
 
