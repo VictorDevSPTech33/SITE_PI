@@ -198,3 +198,46 @@ color: #0d3c94;
     background-color: #f0c1c6;
     border-color: #dc3545 ;
 }
+
+
+/* visual do gráfico */
+#resultadoFinal {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.resultado-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.resultado-texto {
+    text-align: left;
+    font-size: 22px;
+}
+
+.grafico{
+    width: 800px;
+    height: 400px;
+    min-width: 600px;
+}
+
+#resultadoFinal button{
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0762C8;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#resultadoFinal button:hover{
+    background-color: #f0a500;
+}
