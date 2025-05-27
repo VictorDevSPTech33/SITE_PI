@@ -91,6 +91,13 @@ margin: 20px 30px 0px 0px;
  /*jogadores */
 .jogadores {
     margin-bottom: 40px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.jogadores h2{
+    margin-left: 0px;
+    font-size: 35px;
 }
 
 .cartao-jogador {
@@ -102,16 +109,16 @@ margin: 20px 30px 0px 0px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-.imagem-jogador {
-    flex: 1;
-    min-width: 300px;
+.imagem-jogador img{
+    width: 250px;
+    height: 100%;
     background-size: cover;
     background-position: center;
 }
 
 .informacao-jogador {
-    flex: 2;
     padding: 30px;
+    font-size: 18px;
 }
 
 .nome-jogador {
