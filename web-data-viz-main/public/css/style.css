@@ -59,18 +59,33 @@ color: #0d3c94;
     transition: all 0.3s 0s;
 }
 
+/* Contexto */  
 .contexto{
-    border: solid 3px white;
     border-radius: 6px;
-    margin: 10px 20px 0px 20px;
+    margin: 10px 0px 0px 200px; 
+    width: 100%; 
+    align-items: center; 
+    gap: 30px; 
+    padding: 20px;
+    justify-content: space-between;
+    display: flex;
+    
 }
 .contexto h1{
-margin: 20px 30px 0px 30px;
+margin: 20px 30px 0px 0px;
 }
 
-.contexto p{
-    margin: 10px 50px 15px 50px;
-    font-size: 20px;
+.texto-contexto{
+    margin: 10px 50px 15px 150px;
+    font-size:25px;
+}
+.contexto-img{
+    width: 200%;
+    height: 400px;
+}
+.contexto-img img{
+    height: 80%;
+    margin-top: 50px;
 }
 
  /*jogadores */
@@ -229,45 +244,3 @@ h2{
     margin: 50px 50px 0px 50px;
 }
 
-
-
-/*/* Responsividade */
-/*@media (max-width: 800px) {
-/*    .history {
-/*        flex-direction: column;
-/*    }
-/*    
-/*    .player-card {
-/*        flex-direction: column;
-/*    }
-/*    
-/*    .player-image {
-/*        min-height: 300px;
-/*        min-width: auto;
-/*    }
-/*    
-/*    .timeline::after {
-/*        left: 31px;
-/*    }
-/*    
-/*    .timeline-item {
-/*        width: 100%;
-/*        padding-left: 70px;
-/*        padding-right: 25px;
-/*    }
-/*    
-/*    .timeline-item::before {
-/*        left: 60px;
-/*        border: medium solid #fff;
-/*        border-width: 10px 10px 10px 0;
-/*        border-color: transparent #fff transparent transparent;
-/*    }
-/*    
-/*    .left::after, .right::after {
-/*        left: 18px;
-/*    }
-/*    
-/*    .right {
-/*        left: 0%;
-/*    }
-/*}
