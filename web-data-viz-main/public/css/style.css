@@ -11,6 +11,9 @@ header {
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+header img{
+    margin-left: 3%;
+    }
 .navbar ul {
     display: flex;
     list-style: none;
@@ -33,6 +36,7 @@ color: #0d3c94;
 .buttons {
     display: flex;
     gap: 10px;
+    margin-right: 5%;
 }
 .buttons a {
     padding: 8px 16px;
@@ -69,10 +73,12 @@ color: #0d3c94;
     padding: 20px;
     justify-content: space-between;
     display: flex;
+    color: white;
     
 }
 .contexto h1{
 margin: 20px 30px 0px 0px;
+color:black;
 }
 
 .texto-contexto{
@@ -111,25 +117,26 @@ margin: 20px 30px 0px 0px;
 
 .imagem-jogador img{
     width: 250px;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
+    height: 80%;
 }
 
 .informacao-jogador {
     padding: 30px;
-    font-size: 18px;
+    font-size: 25px;
+}
+.informacao-jogador p{
+    color: white;
 }
 
 .nome-jogador {
     color: #8b0000;
     margin-top: 0;
-    font-size: 1.8em;
+    font-size: 45px;
 }
 
 .ano-jogo {
     font-style: italic;
-    color: blue;
+    color: black;
     margin-bottom: 20px;
 }
 
@@ -263,7 +270,7 @@ h2{
     color: #8b0000;
     text-align: center;
     margin-bottom: 30px;
-    font-size: 2em;
+    font-size: 39px;
 }
 
 .ia-subtitulo {
@@ -286,7 +293,7 @@ h2{
 
 .ia-texto {
     flex: 2;
-    color: black;
+    color: white;
     text-align: left;
     font-size: 22px;
 }
@@ -300,9 +307,13 @@ h2{
     width: 100%;
     height: 100%;
     border-radius: 8px;
+}.ia-imagem em{
+    font-size: 20px;
+    color: white;
 }
 
-.comparison-table {
+
+.tabela-comparacao {
     width: 100%;
     margin: 30px 0;
     background-color: #5a6840;
@@ -313,22 +324,22 @@ h3{
     font-size: 25px;
 }
 
-.comparison-table th, .comparison-table td {
+.tabela-comparacao th, .tabela-comparacao td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #788252;
 }
 
-.comparison-table th {
+.tabela-comparacao th {
     background-color: #8b0000;
     color: white;
 }
 
-.comparison-table tr:nth-child(even) {
+.tabela-comparacao tr:nth-child(even) {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.comparison-table tr:hover {
+.tabela-comparacao tr:hover {
     background-color: rgba(139, 0, 0, 0.3);
 }
 
