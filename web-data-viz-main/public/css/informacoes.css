@@ -48,6 +48,7 @@ color: #0d3c94;
     background: #555;
     color: white;
     font-size: 22px;
+    text-decoration: none;
     }
 .sair:hover{
     color: black;
@@ -60,7 +61,7 @@ color: #0d3c94;
 .titulo h1 {
     font-size: 45px;
     margin-bottom: 15px;
-    color: white;
+    color: black;
     }
 .conteudo {
     width: 1200px;
@@ -73,7 +74,7 @@ color: #0d3c94;
     }
 .grade-variantes {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /*para deixar os cartões "alinhados" como estão*/
+    grid-template-columns: 370px 370px 370px; /*para deixar os cartões "alinhados" como estão*/
     gap: 30px;
     }
 .cartao-variante {
@@ -120,4 +121,76 @@ color: #0d3c94;
 footer {
     padding: 40px 0 20px;
     }
+
+/* Seção links Úteis */
+.links-uteis {
+    padding: 40px 20px;
+}
+
+.titulo-secao {
+    margin:  10px 0px 30px 18%;
+    font-size: 40px;
+    color: black;
+}
+
+.container-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cartao-link {
+    background: #2C2926;
+    border-radius: 10px;
+    padding: 25px;
+    width: 100%;    
+}
+
+.cabecalho-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.cabecalho-link img {
+    width: 100px;
+    height: 100px;
+}
+
+.cartao-link h3 {
+    color: #A9A9A9;
+    margin: 0;
+    font-size: 27px;
+}
+
+.cartao-link p {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.botao-link {
+    background: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.botao-link:hover {
+    background: #2980b9;
+}
+
+.frase-efeito {
+    text-align: center;
+    padding: 30px;
+    background-color: #2C2926;
+    font-size: 22px;
+    color: #e8e0c9;
+    border-radius: 8px;
+    margin: 50px 50px 0px 50px;
+}
 
