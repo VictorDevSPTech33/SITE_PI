@@ -30,9 +30,9 @@
         <div id="selecaoNivel" class="tela-selecao">
             <h2>Escolha o nível do quiz:</h2>
             <div class="botoes-nivel">
-                <button onclick="selecionarNivel('iniciante')">Iniciante</button>
-                <button onclick="selecionarNivel('intermediario')">Intermediário</button>
-                <button onclick="selecionarNivel('avancado')">Avançado</button>
+                <button onclick="selecionarNivel('Iniciante')">Iniciante</button>
+                <button onclick="selecionarNivel('Intermediario')">Intermediário</button>
+                <button onclick="selecionarNivel('Avancado')">Avançado</button>
             </div>
         </div>
 
@@ -81,15 +81,36 @@
             </div>
         </div>
         <div id="resultadoFinal" class="hidden">
-            <h2>Resultado</h2>
             <div class="resultado-container">
                 <div class="resultado-texto">
                     <p>Acertos: <span id="finalCertas"></span></p>
                     <p>Erros: <span id="finalErradas"></span></p>
                     <p>Total de questões: <span id="finalTotal"></span></p>
                 </div>
-                <div class="grafico">
-                    <canvas id="graficoResultado"></canvas>
+                
+                <div class="grafico-kpi-container">
+                    <!-- gráfico -->
+                    <div class="grafico-container">
+                        <canvas id="graficoResultado"></canvas>
+                    </div>
+                    
+                    <!-- KPIs -->
+                    <div class="kpi-container">
+                        <div class="kpi-cartao">
+                            <h3>Média de Acertos</h3>
+                            <div class="kpi-valor" id="kpiMediaAcertos"></div>
+                            <div class="kpi-comparacao">
+                                <span id="kpiComparacao"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="kpi-cartao">
+                            <h3>Total de Jogadores</h3>
+                            <div class="kpi-valor" id="kpiTotalUsuarios"></div>
+                            <div class="kpi-descricao" id="kpiDescricao">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <button onclick="reiniciarQuiz()">Fazer outro quiz</button>
@@ -103,7 +124,7 @@
 <script>
     // Lista das questões por nível
 const listaDeQuestoes = {
-    iniciante: [
+    Iniciante: [
         {
             pergunta: "Qual o movimento/direção em que o cavalo se movimenta?",
             alternativaA: "Horizontal.",
@@ -145,7 +166,7 @@ const listaDeQuestoes = {
             alternativaCorreta: "alternativaB"   
         }
     ],
-    intermediario:[
+    Intermediario:[
     {
             pergunta: "O que acontece quando um peão chega ao final do tabuleiro? Na última casa?",
             alternativaA: "Nada.",
@@ -187,7 +208,7 @@ const listaDeQuestoes = {
             alternativaCorreta: "alternativaB"
         }
     ],
-    avancado: [
+    Avancado: [
     {
             pergunta: "Em um final de torres com peões passados em lados opostos, qual princípio geral é mais importante?",
             alternativaA: "Manter a torre atrás do peão passado, seja próprio ou adversário.",
@@ -359,12 +380,82 @@ function mostrarResultadoFinal() {
     document.getElementById('finalErradas').innerHTML = erradas;
     document.getElementById('finalTotal').innerHTML = quantidadeDeQuestoes;
     
-    // Chama a função para criar o gráfico
-    criarGraficoResultado();
+    //Salvar o resultado no banco
+    const idUsuario = sessionStorage.getItem('ID_USUARIO');
+    if (idUsuario) {
+        fetch("/quiz/salvarResultado", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                fkUsuario: idUsuario,
+                nivel: nivelSelecionado,
+                acertos: certas
+            })
+        })
+        .then(resposta => resposta.json())
+        .then(dados => {
+            console.log("Resultado salvo:", dados.message);
+            // Buscar estatísticas e criar gráfico após salvar
+            buscarEstatisticasECriarGrafico();
+        })
+        .catch(erro => {
+            console.error("Erro ao salvar resultado:", erro);
+            // Criar gráfico mesmo com erro de salvamento
+            criarGraficoResultado();
+        });
+    } else {
+        console.warn("Usuário não logado. Resultado não será salvo.");
+}
+}
+
+// Função para buscar os dados no banco e criar o gráfico
+function buscarEstatisticasECriarGrafico() {
+    fetch(`/quiz/estatisticas?nivel=${nivelSelecionado}`)
+    .then(resposta => {
+        if (!resposta.ok) {
+            console.erro(`Erro HTTP: ${resposta.status}`);
+        }
+        return resposta.json();
+    })
+    .then(dadosEstatisticas => {
+        // Preencher KPIs
+        document.getElementById('kpiMediaAcertos').innerHTML = parseFloat(dadosEstatisticas.media_acertos).toFixed(1);
+        
+        document.getElementById('kpiTotalUsuarios').innerHTML = dadosEstatisticas.total_usuarios;
+        
+        document.getElementById('kpiDescricao').innerHTML = `Neste nível ${nivelSelecionado}`;
+        
+        // Adicionar comparação de desempenho
+        const media = parseFloat(dadosEstatisticas.media_acertos);
+        const mensagem_KPI_acertos = document.getElementById('kpiComparacao');
+
+        
+        if (certas > media) {
+            mensagem_KPI_acertos.innerHTML = `😄👌 Parabéns ${sessionStorage.getItem('NOME_USUARIO')}, <strong>Acima</strong> da média em (+${(certas - media).toFixed(1)})`;
+        } else if (certas < media) {
+            mensagem_KPI_acertos.innerHTML = `😐 Que pena ${sessionStorage.getItem('NOME_USUARIO')}, <strong>Abaixo</strong> da média em (${(certas - media).toFixed(1)})`;
+        } else {
+            mensagem_KPI_acertos.innerHTML = `🆗 Ainda pode melhorar ${sessionStorage.getItem('NOME_USUARIO')}, na média exata`;
+        };
+        
+        
+        // Criar gráfico
+        criarGraficoResultado(dadosEstatisticas);
+    })
+    .catch(erro => {
+        console.error("Erro ao buscar estatísticas:", erro);
+        
+        // Preencher KPIs com valores padrão em caso de erro
+        document.getElementById('kpiMediaAcertos').innerHTML = '0.0';
+        document.getElementById('kpiTotalUsuarios').innerHTML = '0';
+        document.getElementById('kpiComparacao').innerHTML = 'Dados indisponíveis';
+    });
 }
 
 // Função para criar o gráfico
-function criarGraficoResultado() {
+function criarGraficoResultado(dadosEstatisticas) {
     const ctx = document.getElementById('graficoResultado').getContext('2d');
     
     // Destrói o gráfico anterior se existir
@@ -416,14 +507,13 @@ function criarGraficoResultado() {
                 legend: {
                     display: false
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.dataset.label + ': ' + context.raw;
-                        }
+                title: {
+                    display: true,
+                    text: `Desempenho no Nível ${nivelSelecionado}`,
+                    font: {
+                        size: 25
                     }
-                }
-            }
+            }}
         }
     });
 }

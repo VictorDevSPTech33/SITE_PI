@@ -82,9 +82,9 @@ function cadastrar() {
     finalizarAguardar();
     return false;
   } else if (!emailVar.includes("@") || !emailVar.includes(".")) {
-  mensagem_erro.innerHTML = "O email deve conter '@'' e '.'";
-  finalizarAguardar();
-  return false;
+  mensagem_erro.innerHTML = "O email deve conter '@' e '.'";
+            setInterval(sumirMensagem, 3000)
+            return false;
 } else {
     setInterval(sumirMensagem, 5000);
   }
