@@ -12,10 +12,8 @@
     <img class="logo" src="assets/imgs/logo_cavalo-Photoroom.png" alt="Logo - Imagem de um cavalo" width="150px">
     <nav class="navbar"> 
         <ul class="nav-links">
-            <li><a href="#">Home</a> </li>
-            <li><a href="#">Sobre mim</a></li>
-            <li> <a href="#">Links Úteis</a></li>
-            <li><a href="#">Contato</a></li>
+            <li><a href="informacoes.html#sessao-variantes">Variantes</a> </li>
+            <li> <a href="informacoes.html#links-uteis">Links Úteis</a></li>
         </ul>
     </nav>
     <div class="buttons">
@@ -26,7 +24,6 @@
 </header>
 <body>
     <div class="container">
-        <!-- Conteiner dos níveis -->
         <div id="selecaoNivel" class="tela-selecao">
             <h2>Escolha o nível do quiz:</h2>
             <div class="botoes-nivel">
@@ -35,8 +32,6 @@
                 <button onclick="selecionarNivel('Avancado')">Avançado</button>
             </div>
         </div>
-
-        <!-- Conteiner do quiz-->
         <div id="quizContainer" class="hidden">
             <div id="pontuacao" class="pontuacao-container">
                 <div id="pontuacaoDuranteJogo">
@@ -89,12 +84,11 @@
                 </div>
                 
                 <div class="grafico-kpi-container">
-                    <!-- gráfico -->
+
                     <div class="grafico-container">
                         <canvas id="graficoResultado"></canvas>
                     </div>
-                    
-                    <!-- KPIs -->
+
                     <div class="kpi-container">
                         <div class="kpi-cartao">
                             <h3>Média de Acertos</h3>
@@ -122,7 +116,7 @@
 </html>
 
 <script>
-    // Lista das questões por nível
+
 const listaDeQuestoes = {
     Iniciante: [
         {
@@ -252,8 +246,7 @@ const listaDeQuestoes = {
     ]
 };
 
- 
-// Variáveis globais
+
 let nivelSelecionado = '';
 let questoesDoNivel = [];
 let numeroDaQuestaoAtual = 0;
@@ -265,23 +258,20 @@ let grafico = null;
 let questaoRespondida = false;
 
 
-// Função para selecionar o nível
 function selecionarNivel(nivel) {
     nivelSelecionado = nivel;
     questoesDoNivel = listaDeQuestoes[nivel];
     quantidadeDeQuestoes = questoesDoNivel.length;
     
-    // Esconder a tela de seleção e mostrar o quiz
     document.getElementById('selecaoNivel').classList.add('hidden');
     document.getElementById('quizContainer').classList.remove('hidden');
     
-    // Chama a função para iniciar o quiz
     iniciarQuiz();
 }
 
-// Função para iniciar o quiz
+
 function iniciarQuiz() {
-    // Reseta os contadores para cada nova tentativa
+    
     numeroDaQuestaoAtual = 0;
     certas = 0;
     erradas = 0;
@@ -292,11 +282,11 @@ function iniciarQuiz() {
     document.getElementById('spanErradas').innerHTML = erradas;
     document.getElementById('qtdQuestoes').innerHTML = quantidadeDeQuestoes;
     
-    // Chama a função para mostrar a primeira questão
+    
     mostrarQuestaoAtual();
 }
 
-// Função para mostrar a questão atual
+
 function mostrarQuestaoAtual() {
     const questaoAtual = questoesDoNivel[numeroDaQuestaoAtual];
     questaoRespondida = false;
@@ -325,6 +315,7 @@ function responder() {
     const opcoes = document.getElementsByName("option");
     const questaoAtual = questoesDoNivel[numeroDaQuestaoAtual];
     respostaSelecionada = null;
+
     document.getElementById('btnProx').classList.remove('hidden');
     if (questaoRespondida) {
         alert('Você já respondeu esta questão!');
@@ -390,7 +381,7 @@ function mostrarResultadoFinal() {
     document.getElementById('quizContainer').classList.add('hidden');
     document.getElementById('resultadoFinal').classList.remove('hidden');
     
-    // Atualiza os textos
+
     document.getElementById('finalCertas').innerHTML = certas;
     document.getElementById('finalErradas').innerHTML = erradas;
     document.getElementById('finalTotal').innerHTML = quantidadeDeQuestoes;
@@ -417,7 +408,6 @@ function mostrarResultadoFinal() {
         })
         .catch(erro => {
             console.error("Erro ao salvar resultado:", erro);
-            // Criar gráfico mesmo com erro de salvamento
             criarGraficoResultado();
         });
     } else {
@@ -425,7 +415,7 @@ function mostrarResultadoFinal() {
 }
 }
 
-// Função para buscar os dados no banco e criar o gráfico
+
 function buscarEstatisticasECriarGrafico() {
     fetch(`/quiz/estatisticas?nivel=${nivelSelecionado}`)
     .then(resposta => {
@@ -455,25 +445,23 @@ function buscarEstatisticasECriarGrafico() {
             mensagem_KPI_acertos.innerHTML = `🆗 Ainda pode melhorar ${sessionStorage.getItem('NOME_USUARIO')}, na média exata`;
         };
         
-        
-        // Criar gráfico
+
         criarGraficoResultado(dadosEstatisticas);
     })
     .catch(erro => {
         console.error("Erro ao buscar estatísticas:", erro);
         
-        // Preencher KPIs com valores padrão em caso de erro
         document.getElementById('kpiMediaAcertos').innerHTML = '0.0';
         document.getElementById('kpiTotalUsuarios').innerHTML = '0';
         document.getElementById('kpiComparacao').innerHTML = 'Dados indisponíveis';
     });
 }
 
-// Função para criar o gráfico
+
 function criarGraficoResultado(dadosEstatisticas) {
     const ctx = document.getElementById('graficoResultado').getContext('2d');
     
-    // Destrói o gráfico anterior se existir
+
     if (grafico) {
         grafico.destroy();
     }
@@ -533,13 +521,12 @@ function criarGraficoResultado(dadosEstatisticas) {
     });
 }
 
-// Função para reiniciar o Quiz
+
 function reiniciarQuiz() {
     document.getElementById('quizContainer').classList.add('hidden');
     document.getElementById('selecaoNivel').classList.remove('hidden');
     document.getElementById('resultadoFinal').classList.add('hidden');
 
-    // Destrói o gráfico se existir
     if (grafico) {
         grafico.destroy();
         grafico = null;
