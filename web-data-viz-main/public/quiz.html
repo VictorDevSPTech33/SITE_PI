@@ -19,8 +19,8 @@
         </ul>
     </nav>
     <div class="buttons">
-        <a href="login.html" class="login">Login</a>
-        <a href="cadastro.html" class="cadastro">Cadastro</a>
+        <a href="index.html" class="sair">Sair</a>
+        <a href="informacoes.html" class="voltar">Voltar</a>
     </div>
     
 </header>
@@ -262,6 +262,8 @@ let erradas = 0;
 let quantidadeDeQuestoes = 0;
 let respostaSelecionada = null;
 let grafico = null;
+let questaoRespondida = false;
+
 
 // Função para selecionar o nível
 function selecionarNivel(nivel) {
@@ -283,6 +285,7 @@ function iniciarQuiz() {
     numeroDaQuestaoAtual = 0;
     certas = 0;
     erradas = 0;
+    questaoRespondida = false;
     
     // Atualiza as certas erradas e quantas tem
     document.getElementById('spanCertas').innerHTML = certas;
@@ -296,6 +299,7 @@ function iniciarQuiz() {
 // Função para mostrar a questão atual
 function mostrarQuestaoAtual() {
     const questaoAtual = questoesDoNivel[numeroDaQuestaoAtual];
+    questaoRespondida = false;
     
     // Atualiza a questão que está sendo exibida
     document.getElementById('spanNumeroDaQuestaoAtual').innerHTML = numeroDaQuestaoAtual + 1;
@@ -311,18 +315,32 @@ function mostrarQuestaoAtual() {
         radio.parentElement.classList.remove('resposta-correta', 'resposta-incorreta');
     });
     
-    // Esconder o botão Próximo
     document.getElementById('btnProx').classList.add('hidden');
 
-    // parei aqui.
+   
 }
-// Função para responder a resposta
+
+
 function responder() {
     const opcoes = document.getElementsByName("option");
     const questaoAtual = questoesDoNivel[numeroDaQuestaoAtual];
-    let respostaSelecionada = null;
+    respostaSelecionada = null;
     document.getElementById('btnProx').classList.remove('hidden');
+    if (questaoRespondida) {
+        alert('Você já respondeu esta questão!');
+        return;
+    }
+    
+    opcoes.forEach(opcao => {
+        if (opcao.checked) {
+            respostaSelecionada = opcao.value;
+        }
+    });
 
+    if (!respostaSelecionada) {
+        alert('Por favor, selecione uma resposta!');
+        return;
+    }
     
     // Verifica qual opção foi selecionada
     opcoes.forEach(opcao => {
@@ -340,12 +358,7 @@ function responder() {
             opcao.parentElement.classList.add('resposta-correta');
         }
     });
-    
-    // Caso nenhuma opção seja selecionada
-    if (!respostaSelecionada) {
-        alert('Por favor, selecione uma resposta!');
-        return;
-    }
+
     
     // Atualiza as respostas certas e erradas
     if (respostaSelecionada === questaoAtual.alternativaCorreta) {
@@ -356,10 +369,14 @@ function responder() {
     
     document.getElementById('spanCertas').innerHTML = certas;
     document.getElementById('spanErradas').innerHTML = erradas;
+    questaoRespondida = true;
 }
 
-// Função para avançar para a próxima questão
 function proximo() {
+    if (!questaoRespondida) {
+        alert('Por favor, responda a questão antes de avançar!');
+        return;
+    }
     numeroDaQuestaoAtual++;
     
     if (numeroDaQuestaoAtual < quantidadeDeQuestoes) {
@@ -369,9 +386,7 @@ function proximo() {
     }
 }
 
-// Função para deixar o ambiente válido para o gráfico
 function mostrarResultadoFinal() {
-    // Esconde o quiz e mostra o resultado
     document.getElementById('quizContainer').classList.add('hidden');
     document.getElementById('resultadoFinal').classList.remove('hidden');
     

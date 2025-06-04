@@ -56,21 +56,15 @@
 
     <script>
 
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
 
 function cadastrar() {
-  // aguardar();
 
-  //Recupere o valor da nova input pelo nome do id
-  // Agora vá para o método fetch logo abaixo
   var nomeVar = input_nome.value;
   var sobreNomeVar =input_sobreNome.value
   var emailVar = input_email.value;
   var senhaVar = input_senha.value;
   
-
-  // Verificando se há algum campo em branco
+  // Verificando se há algum campo em branco ou inválido
   if (
     nomeVar == "" ||
     sobreNomeVar == "" ||
@@ -88,29 +82,13 @@ function cadastrar() {
 } else {
     setInterval(sumirMensagem, 5000);
   }
-
-  // Verificando se o código de ativação é de alguma empresa cadastrada
-  //for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-  //  if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-  //    idEmpresaVincular = listaEmpresasCadastradas[i].id
-  //    console.log("Código de ativação válido.");
-  //    break;
-  //  } else {
-  //    cardErro.style.display = "block";
-  //    mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-  //     ();
-  //  }
-  //}
-
-  // Enviando o valor da nova input
+  // Enviando o valor da input
   fetch("/usuarios/cadastrar", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      // crie um atributo que recebe o valor recuperado aqui
-      // Agora vá para o arquivo routes/usuario.js
       nomeServer: nomeVar,
       sobreNomeServer: sobreNomeVar,
       emailServer: emailVar,
@@ -142,25 +120,6 @@ function cadastrar() {
   return false;
 }
 
-// Listando empresas cadastradas 
-//function listar() {
-//  fetch("/empresas/listar", {
-//    method: "GET",
-//  })
-//    .then(function (resposta) {
-//      resposta.json().then((empresas) => {
-//        empresas.forEach((empresa) => {
-//          listaEmpresasCadastradas.push(empresa);
-//
-//          console.log("listaEmpresasCadastradas")
-//          console.log(listaEmpresasCadastradas[0].codigo_ativacao)
-//        });
-//      });
-//    })
-//    .catch(function (resposta) {
-//      console.log(`#ERRO: ${resposta}`);
-//    });
-//}
 
 function sumirMensagem() {
   cardErro.style.display = "none";

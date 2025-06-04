@@ -40,21 +40,21 @@ color: #0d3c94;
     border-radius: 4px;
     cursor: pointer;
 }
-.login {
+.sair {
     background: #555;
     color: white;
     font-size: 17px;
 }
-.login:hover{
+.sair:hover{
     color: black;
     transition: all 0.3s 0s;
 }
-.cadastro {
+.voltar {
     background: #f0a500;
     color: black;
     font-size: 17px;
 }
-.cadastro:hover{
+.voltar:hover{
     color:#0d3c94;
     transition: all 0.3s 0s;
 }
