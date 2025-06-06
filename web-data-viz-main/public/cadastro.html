@@ -17,7 +17,7 @@
               <li><a href="index.html#ia-secao">IA's</a></li>
               <li><a href="index.html#sobre-mim">Sobre mim</a></li>
             </ul>
-        </nav>f
+        </nav>
         <div class="buttons">
           <a href="login.html" class="login">Login</a>
           <a href="cadastro.html" class="cadastro">Cadastro</a>
@@ -63,8 +63,7 @@ function cadastrar() {
   var sobreNomeVar =input_sobreNome.value
   var emailVar = input_email.value;
   var senhaVar = input_senha.value;
-  
-  // Verificando se há algum campo em branco ou inválido
+
   if (
     nomeVar == "" ||
     sobreNomeVar == "" ||
@@ -109,6 +108,8 @@ function cadastrar() {
         limparFormulario();
         finalizarAguardar();
       } else {
+        mensagem_erro.innerHTML =
+          "Houve um erro ao tentar realizar o cadastro, email já cadastrado!";
         throw "Houve um erro ao tentar realizar o cadastro!";
       }
     })

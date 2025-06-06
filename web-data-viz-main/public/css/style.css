@@ -48,7 +48,7 @@ color: #0d3c94;
 .login {
     background: #555;
     color: white;
-    font-size: 17px;
+    font-size: 22px;
 }
 .login:hover{
     color: black;
@@ -57,7 +57,7 @@ color: #0d3c94;
 .cadastro {
     background: #f0a500;
     color: black;
-    font-size: 17px;
+    font-size: 22px;
 }
 .cadastro:hover{
     color:#0d3c94;
