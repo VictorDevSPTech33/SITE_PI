@@ -388,6 +388,7 @@ function mostrarResultadoFinal() {
     
     //Salvar o resultado no banco
     const idUsuario = sessionStorage.getItem('ID_USUARIO');
+    const fkQuiz = 1;
     if (idUsuario) {
         fetch("/quiz/salvarResultado", {
             method: "POST",
@@ -397,7 +398,8 @@ function mostrarResultadoFinal() {
             body: JSON.stringify({
                 fkUsuario: idUsuario,
                 nivel: nivelSelecionado,
-                acertos: certas
+                acertos: certas,
+                fkQuiz: 1
             })
         })
         .then(resposta => resposta.json())

@@ -1,30 +1,46 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
-
-/*
-comandos para mysql server
-*/
-
-create database xadrez;
 use xadrez;
+create database xadrez;
 
 create table usuario(
 idUsuario int primary key auto_increment,
 nome varchar(50),
 sobreNome varchar(60),
-email varchar(70),
-senha varchar(60))
-;
+email varchar (254),
+senha varchar(60)
+);
 
-create table quiz(
-idQuiz int primary key,
+create table Quiz(
+idQuiz int primary key auto_increment,
+nome VARCHAR(30) DEFAULT 'Xadrez'
+);
+
+create table resultado_quiz(
+idResultado int primary key auto_increment,
 fkUsuario int,
+fkQuiz int,
+nivel varchar(20),
+acertos int,
+data_hora datetime default CURRENT_TIMESTAMP,
+foreign key (fkQuiz) references Quiz(idQuiz),
 foreign key (fkUsuario) references usuario(idUsuario)
 );
 
-create table resposta(
-idResposta int primary key auto_increment,
-fkQuiz int,
-foreign key (fkQuiz) references quiz(idQuiz)
-);
+insert into Quiz values (1, 'Xadrez');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
