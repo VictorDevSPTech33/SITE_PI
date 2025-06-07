@@ -5,13 +5,13 @@ create table usuario(
 idUsuario int primary key auto_increment,
 nome varchar(50),
 sobreNome varchar(60),
-email varchar (254),
+email varchar (254) unique,
 senha varchar(60)
 );
 
 create table Quiz(
 idQuiz int primary key auto_increment,
-nome VARCHAR(30) DEFAULT 'Xadrez'
+nome VARCHAR(30)
 );
 
 create table resultado_quiz(

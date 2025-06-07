@@ -277,7 +277,6 @@ function iniciarQuiz() {
     erradas = 0;
     questaoRespondida = false;
     
-    // Atualiza as certas erradas e quantas tem
     document.getElementById('spanCertas').innerHTML = certas;
     document.getElementById('spanErradas').innerHTML = erradas;
     document.getElementById('qtdQuestoes').innerHTML = quantidadeDeQuestoes;
@@ -351,7 +350,6 @@ function responder() {
     });
 
     
-    // Atualiza as respostas certas e erradas
     if (respostaSelecionada === questaoAtual.alternativaCorreta) {
         certas++;
     } else {
@@ -386,9 +384,7 @@ function mostrarResultadoFinal() {
     document.getElementById('finalErradas').innerHTML = erradas;
     document.getElementById('finalTotal').innerHTML = quantidadeDeQuestoes;
     
-    //Salvar o resultado no banco
     const idUsuario = sessionStorage.getItem('ID_USUARIO');
-    const fkQuiz = 1;
     if (idUsuario) {
         fetch("/quiz/salvarResultado", {
             method: "POST",
@@ -398,14 +394,12 @@ function mostrarResultadoFinal() {
             body: JSON.stringify({
                 fkUsuario: idUsuario,
                 nivel: nivelSelecionado,
-                acertos: certas,
-                fkQuiz: 1
+                acertos: certas
             })
         })
         .then(resposta => resposta.json())
         .then(dados => {
             console.log("Resultado salvo:", dados.message);
-            // Buscar estatísticas e criar gráfico após salvar
             buscarEstatisticasECriarGrafico();
         })
         .catch(erro => {
@@ -427,7 +421,6 @@ function buscarEstatisticasECriarGrafico() {
         return resposta.json();
     })
     .then(dadosEstatisticas => {
-        // Preencher KPIs
         document.getElementById('kpiMediaAcertos').innerHTML = parseFloat(dadosEstatisticas.media_acertos).toFixed(1);
         
         document.getElementById('kpiTotalUsuarios').innerHTML = dadosEstatisticas.total_usuarios;

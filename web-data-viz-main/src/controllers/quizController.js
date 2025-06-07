@@ -32,15 +32,10 @@ function buscarEstatisticas(req, res) {
 
     quizModel.buscarEstatisticas(nivel)
         .then(resultado => {
-            // Garante que sempre retorna um "numero" válido
             const estatisticas = resultado[0] || {
                 total_usuarios: 0,
                 media_acertos: 0
             };
-            
-            // Converte para número
-            estatisticas.total_usuarios = parseInt(estatisticas.total_usuarios) || 0;
-            estatisticas.media_acertos = parseFloat(estatisticas.media_acertos) || 0;
             
             res.json(estatisticas);
         })
