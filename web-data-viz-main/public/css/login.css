@@ -163,3 +163,21 @@ input::placeholder{
     color:#0d3c94;
     transition: all 0.3s 0s;
 }
+
+.card_erro {
+    display: none;
+    position: fixed;
+    top: 125px;
+    background-color: #ffebee;
+    color: #d32f2f;
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-align: center;
+}
+#mensagem_erro {
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
